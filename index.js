@@ -1,83 +1,111 @@
-class D {
+class CustomDate {
   constructor(...args) {
     this.date = new Date(...args)
   }
 
-  year() {
+  get year() {
     return this.date.getFullYear()
   }
 
-  month() {
+  get month() {
     const months = ['January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
     return months[this.date.getMonth()]
   }
 
-  day() {
+  get day() {
     return this.date.getDate()
   }
 
-  hours() {
+  get hours() {
     return this.date.getHours() + 1
   }
 
-  mins() {
+  get mins() {
     return this.date.getMinutes() + 1
   }
 
-  seconds() {
+  get seconds() {
     return this.date.getSeconds() + 1
   }
 
   format(str) {
     if (str === undefined) {
-      return `${this.month} ${this.date} ${this.year}`
+      return `${this.month}/${this.day}/${this.year}`
     }
-    copy = Array(str)
-    output = []
+    const copy = str.split("")
+    const output = []
     copy.forEach(val => {
       switch (val) {
         case 'Y':
-          output.push(this.year())
+          output.push(this.year)
           break
         case 'y':
-          output.push(Array(this.year()).slice(2, 3))
+          output.push(Array(this.year).slice(2, 3))
           break
         case 'M':
-          output.push(this.month())
+          output.push(this.month)
           break
         case 'm':
-          output.push(Array(this.month()).slice(0, 2))
+          output.push(this.month.slice(0, 3))
           break
         case 'D':
-          output.push()
+          if (this.day < 10) {
+            output.push(`0${this.day}`)
+          } else {
+            output.push(this.day)
+          }
           break
         case 'd':
-          output.push(this.day())
+          output.push(this.day)
           break
         case 'H':
-          output.push()
+          if (this.hours < 10) {
+            output.push(`0${this.hours}`)
+          } else {
+            output.push(this.hours)
+          }
           break
         case 'h':
-          output.push(this.hours())
+          output.push(this.hours)
           break
         case 'I':
-          output.push()
+          if (this.mins < 10) {
+            output.push(`0${this.mins}`)
+          } else {
+            output.push(this.mins)
+          }
           break
         case 'i':
-          ouptut.push(this.mins())
+          ouptut.push(this.mins)
           break
         case 'S':
-          output.push()
+          if (this.seconds() < 10) {
+            output.push(`0${this.seconds}`)
+          }
+          output.push(this.seconds)
           break
         case 's':
-          output.push(this.seconds())
+          output.push(this.seconds)
           break
         default:
           output.push(val)
       }
     })
+    return output.join("")
   }
-  when() {
-
+  when(curr = new customDate) {
+    const l = ['seconds', 'mins', 'hours', 'day', 'month', 'year']
+    return l.reduce((acc, unit) => {
+      const unitName = unit
+      if (this[unit] < curr[unit]) {
+        return `${curr[unit] - this[unit]} ${unitName}${curr[unit] - this[unit] === 1 ? "" : "s"} ago`
+      }
+      else if (this[unit] > curr[unit]) {
+        return `${this[unit] - curr[unit]} ${unitName}${this[unit] - curr[unit] === 1 ? "" : "s"} from now`
+      }
+      return acc
+    }, 'now')
   }
 }
+
+module.exports = CustomDate
