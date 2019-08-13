@@ -49,8 +49,8 @@ test('seconds', () => {
 
 test('format', () => {
   expect(testDate1.format('M/d/Y')).toBe('January/7/1999')
-  expect(testDate2.format('m/D/Y')).toBe('Feb/05/2019')
-  expect(testDate3.format()).toBe('March/10/2025')
+  expect(testDate2.format()).toBe('Feburary/5/2019')
+  expect(testDate3.format('Y y M m D d H h I i S s')).toBe("2025  March Mar 10 10 03 3 07 7 13 13")
 })
 
 test('when', () => {

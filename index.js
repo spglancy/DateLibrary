@@ -76,10 +76,10 @@ class CustomDate {
           }
           break
         case 'i':
-          ouptut.push(this.mins)
+          output.push(this.mins)
           break
         case 'S':
-          if (this.seconds() < 10) {
+          if (this.seconds < 10) {
             output.push(`0${this.seconds}`)
           }
           output.push(this.seconds)
